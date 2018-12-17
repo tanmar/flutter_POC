@@ -67,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: AppStatsList(_loadAppStats(context)),
+      body: AppStatsList(_loadAppStats(context).asStream()),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -79,6 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final AppStatsRepositoryImpl appStatsRepositoryImpl =
       AppStatsRepositoryImpl.get();
 
-  Stream<List<AppStats>> _loadAppStats(BuildContext context) =>
-      appStatsRepositoryImpl.loadAppStats();
+  Future<List<AppStats>> _loadAppStats(BuildContext context) async {
+    var list = await appStatsRepositoryImpl.loadAppStats();
+    return list;
+  }
 }
