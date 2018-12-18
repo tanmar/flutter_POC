@@ -34,18 +34,20 @@ class AppsStatsDatabase {
   }
 
   Future _init() async {
-    Directory databasesPath = await getApplicationDocumentsDirectory();
-    String path = join(databasesPath.path, 'apps-db.db');
+//    Directory databasesPath = await getApplicationDocumentsDirectory();
+    var databasesPath = await getDatabasesPath();
+    String path = join(databasesPath, 'apps-db');
     _db = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
           // We dont need create db here
         });
-    String tempPath = databasesPath.path;
+//    String tempPath = databasesPath.path;
   }
 
   Future<List<AppStats>> getAppStats() async{
     var db = await _getDb();
     var result = await db.rawQuery('SELECT * FROM $tableApps');
+    print("tttt " + result.toString());
     if(result.length == 0)return null;
     return List<AppStats>();
   }
